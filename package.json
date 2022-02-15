@@ -1,0 +1,26 @@
+{
+  "name": "middlewarerestapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BoltonAndrew/m33MiddlewareRESTAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BoltonAndrew/m33MiddlewareRESTAPI/issues"
+  },
+  "homepage": "https://github.com/BoltonAndrew/m33MiddlewareRESTAPI#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.2.1"
+  }
+}
