@@ -1,12 +1,38 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../user/user.model");
 
-exports.hashPass = async (req, res, next) => {
+exports.hashPassword = async (req, res, next) => {
   try {
-    // const tempPass = req.body.pass;
-    // const hashedPass = await bcrypt.hash(tempPass, 8);
-    // req.body.pass = hashedPass
-    const salt = await bcrypt.genSalt(8);
-    req.body.password = await bcrypt.hash(req.body.password, salt);
+    req.body.password = await bcrypt.hash(req.body.password, 8);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Unsuccessful, please check logs" });
+  }
+};
+
+exports.decryptPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      req.user = user;
+      next();
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Unsuccessful, please check logs" });
+  }
+};
+
+exports.tokenCheck = async (req, res, next) => {
+  try {
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const decoded = await jwt.verify(token, process.env.SECRET);
+    const user = await User.findById(decoded._id);
+    req.user = user;
     next();
   } catch (error) {
     console.log(error);
